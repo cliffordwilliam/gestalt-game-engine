@@ -13,7 +13,7 @@ from utils.write import write
 
 @beartype
 def error(exception: Exception, settings: Settings) -> None:
-    # Draw err on window surf
+    # Draw err text on window surf
     settings.window_surf.fill(settings.color_blue)
     error_text = f"{exception} {traceback.format_exc()}"
     write(

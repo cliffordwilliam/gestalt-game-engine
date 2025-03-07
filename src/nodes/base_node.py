@@ -70,11 +70,11 @@ class BaseNode:
     # Frame callbacks #
     ###################
 
-    # PUB
+    # PUB CORE
     def draw(self, _window_surf: pygame.Surface) -> None:
         pass
 
-    # PUB
+    # PUB CORE
     def update(self, dt: int) -> None:
         pass
 

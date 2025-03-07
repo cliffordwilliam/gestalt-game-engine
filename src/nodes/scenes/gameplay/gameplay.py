@@ -51,16 +51,13 @@ class Gameplay(BaseNode):
     # Frame callbacks #
     ###################
 
-    # PUB
+    # PUB CORE
     def draw(self, _window_surf: pygame.Surface) -> None:
         pass
 
-    # PUB
+    # PUB CORE
     def update(self, dt: int) -> None:
-        if self.event.is_action_just_pressed(self.settings.attack_key_name):
-            self.scene_manager.set_current_scene(self.scene_manager.test_scene_name)
-        if self.event.is_action_just_pressed(self.settings.left_key_name):
-            self.scene_manager.set_is_exit(True)
+        pass
 
     ###########
     # Publics #

@@ -48,10 +48,11 @@ class SceneManager:
     def set_is_exit(self, value: bool) -> None:
         self.is_exit = value
 
-    # PUB
+    # PUB CORE
     def run(self, dt: int) -> bool:
         """
-        Run game loop, draw and update current scene.
+        Draw current scene.
+        Update current scene.
         Return true if scene wants to quit.
         """
         # Draw current scene

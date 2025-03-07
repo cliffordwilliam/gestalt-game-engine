@@ -12,7 +12,7 @@ from core.game import Game
 # PRIVATE
 def _get_main_py_abs_path() -> str:
     """
-    Return this main.py absolute str path.
+    Returns absolute str path of where this func is called. OS agnostic.
     """
     if getattr(sys, "frozen", False):
         return path.dirname(sys.executable)
@@ -21,10 +21,6 @@ def _get_main_py_abs_path() -> str:
 
 @beartype
 def main() -> None:
-    """
-    Init pygame, instance and run game, de init pygame.
-    If game does not run that means user cannot init pygame or instance game.
-    """
     # Init needed pygame modules only, not all, If this fail, user can't run pygame
     pygame.display.init()
     pygame.freetype.init()

@@ -14,11 +14,9 @@ class Game:
     """
 
     def __init__(self, main_py_abs_path: str) -> None:
-        # Main.py absolute path
         # PRIVATE
         self.main_py_abs_path = main_py_abs_path
 
-        # Reference to other cores
         # PRIVATE
         self.settings = Settings(self.main_py_abs_path)
         # PRIVATE
@@ -28,12 +26,14 @@ class Game:
         # PRIVATE
         self.loop = Loop(self.settings, self.event, self.scene_manager)
 
-    # PUB
+    # PUB CORE
     def run(self) -> None:
         """
         Run game loop or error loop.
         """
         try:
+            # Game loop
             self.loop.run()
         except Exception as e:
+            # Error loop
             error(e, self.settings)

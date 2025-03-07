@@ -57,8 +57,7 @@ class Test(BaseNode):
 
     # PUB
     def update(self, dt: int) -> None:
-        if self.event.is_action_just_pressed(self.settings.attack_key_name):
-            self.scene_manager.set_current_scene(self.scene_manager.gameplay_scene_name)
+        pass
 
     ###########
     # Publics #

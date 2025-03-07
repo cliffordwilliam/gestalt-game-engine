@@ -139,11 +139,11 @@ class Settings:
         # PUB
         self.camera_responsiveness = 50
 
-    # PUB
+    # PUB CORE
     def wipe_native_surf(self) -> None:
         self.window_surf.fill(self.color_blue)
 
-    # PUB
+    # PUB CORE
     def end_frame_cleanup(self) -> int:
         pygame.display.update()
         return self.clock.tick(self.fps)

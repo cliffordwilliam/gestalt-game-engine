@@ -17,12 +17,18 @@ class Loop:
         self.event = event
         # PRIVATE
         self.scene_manager = scene_manager
-        # PRIVATE
-        self.dt = 1  # Very first game frame dt is 0, need to make it 1 so timer works
 
-    # PUB
+        # PRIVATE
+        self.dt = 1  # Very first game frame dt is 0, it needs to be 1 so timer works
+
+    # PUB CORE
     def run(self) -> None:
-        # The game loop
+        """
+        Handle window X exit button
+        Wipe window surface
+        Run scene manager
+        Update dt
+        """
         while 1:
             # Handle window X exit button
             if self.event.update():
@@ -31,7 +37,7 @@ class Loop:
             # Wipe window surface
             self.settings.wipe_native_surf()
 
-            # Run current scene and handle scene wants to exit loop with ui button
+            # Run current scene and handle in game exit button
             if self.scene_manager.run(self.dt):
                 break
 

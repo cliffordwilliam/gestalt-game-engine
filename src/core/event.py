@@ -26,7 +26,7 @@ class Event:
         # PRIVATE
         self.pressed_mouse = pygame.mouse.get_pressed()
 
-    # PUB
+    # PUB CORE
     def update(self) -> bool:
         """
         Update input props.
@@ -54,30 +54,37 @@ class Event:
         return False
 
     # PUB
+    # Call to get input info
     def is_action_just_pressed(self, action: str) -> bool:
         return bool(self.just_pressed[cast(int, getattr(self.settings, action))])
 
     # PUB
+    # Call to get input info
     def is_action_just_released(self, action: str) -> bool:
         return bool(self.just_released[cast(int, getattr(self.settings, action))])
 
     # PUB
+    # Call to get input info
     def is_action_pressed(self, action: str) -> bool:
         return bool(self.pressed[cast(int, getattr(self.settings, action))])
 
     # PUB
+    # Call to get input info
     def is_action_just_pressed_mouse(self, action: str) -> bool:
         return bool(self.just_pressed_mouse[cast(int, getattr(self.settings, action))])
 
     # PUB
+    # Call to get input info
     def is_action_just_released_mouse(self, action: str) -> bool:
         return bool(self.just_released_mouse[cast(int, getattr(self.settings, action))])
 
     # PUB
+    # Call to get input info
     def is_action_pressed_mouse(self, action: str) -> bool:
         return bool(self.pressed_mouse[cast(int, getattr(self.settings, action))])
 
     # PUB
+    # Call to get input info
     def get_direction_horizontal(self) -> int:
         return self.is_action_just_pressed(
             self.settings.right_key_name
