@@ -71,7 +71,7 @@ class BaseNode:
     ###################
 
     # PUB CORE
-    def draw(self, _window_surf: pygame.Surface) -> None:
+    def draw(self, window_surf: pygame.Surface) -> None:
         pass
 
     # PUB CORE

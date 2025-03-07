@@ -25,6 +25,10 @@ class Settings:
         self.database_folder_name = "database"
         # PRIVATE
         self.assets_folder_name = "assets"
+        # PRIVATE
+        self.jsons_folder_name = "jsons"
+        # PRIVATE
+        self.images_folder_name = "images"
 
         # Paths prop
         # PRIVATE
@@ -34,11 +38,23 @@ class Settings:
             self.traceback_file_name,
         )
         # PRIVATE
-        self.font_path = path.join(
+        self.font_file_path = path.join(
             self.main_py_abs_path,
             self.assets_folder_name,
             self.fonts_folder_name,
             self.font_file_name,
+        )
+        # PRIVATE
+        self.json_folder_path = path.join(
+            self.main_py_abs_path,
+            self.assets_folder_name,
+            self.jsons_folder_name,
+        )
+        # PRIVATE
+        self.images_folder_path = path.join(
+            self.main_py_abs_path,
+            self.assets_folder_name,
+            self.images_folder_name,
         )
 
         # Font prop
@@ -53,7 +69,7 @@ class Settings:
         # PRIVATE
         self.letter_gap_y = 5
         # PRIVATE
-        self.font = pygame.freetype.Font(self.font_path, self.font_height)
+        self.font = pygame.freetype.Font(self.font_file_path, self.font_height)
 
         # Pygame settings
         # PRIVATE
@@ -138,6 +154,9 @@ class Settings:
         self.screen_shake = 1
         # PUB
         self.camera_responsiveness = 50
+
+        # Room spritesheet width is fixed for this game
+        self.spritesheet_width = 32
 
     # PUB CORE
     def wipe_native_surf(self) -> None:

@@ -52,8 +52,8 @@ class Test(BaseNode):
     ###################
 
     # PUB
-    def draw(self, _window_surf: pygame.Surface) -> None:
-        _window_surf.fill(self.settings.color_white)
+    def draw(self, window_surf: pygame.Surface) -> None:
+        window_surf.fill(self.settings.color_white)
 
     # PUB
     def update(self, dt: int) -> None:

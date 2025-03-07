@@ -36,4 +36,4 @@ class Game:
             self.loop.run()
         except Exception as e:
             # Error loop
-            error(e, self.settings)
+            error(e, self.main_py_abs_path)
