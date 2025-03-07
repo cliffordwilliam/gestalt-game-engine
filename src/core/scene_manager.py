@@ -1,28 +1,63 @@
+from beartype import beartype
+
 from core.event import Event
 from core.settings import Settings
 from nodes.base_node import BaseNode, BaseNodeParams
 from nodes.scenes.gameplay.gameplay import Gameplay
+from nodes.scenes.test.test import Test
 
 
+@beartype
 class SceneManager:
     def __init__(self, settings: Settings, event: Event) -> None:
-        self.settings = settings
-        self.event = event
-        self.is_exit = False
+        # PRIVATE
+        self.settings: Settings = settings
+        # PRIVATE
+        self.event: Event = event
 
-        # List of all scenes in the game
+        # Dictionary mapping SceneName enum values to scene classes
+        # PRIVATE
+        self.gameplay_scene_name = "Gameplay"
+        # PRIVATE
+        self.test_scene_name = "Test"
+        # PRIVATE
         self.scenes: dict[str, type[BaseNode]] = {
-            "Gameplay": Gameplay,
+            self.gameplay_scene_name: Gameplay,
+            self.test_scene_name: Test,
         }
-        self.current_scene = self.scenes[self.settings.main_scene_name](
+
+        # PUB
+        # Change this to swtich scene with setter
+        self.current_scene: BaseNode = self.scenes[self.gameplay_scene_name](
             BaseNodeParams(self.settings, self.event, self)
         )
 
+        # PUB
+        # Change this to end loop with setter
+        self.is_exit = False
+
+    # PUB
+    # Change this to swtich scene with setter
+    def set_current_scene(self, scene: str) -> None:
+        self.current_scene = self.scenes[scene](
+            BaseNodeParams(self.settings, self.event, self)
+        )
+
+    # PUB
+    # Change this to end loop with setter
+    def set_is_exit(self, value: bool) -> None:
+        self.is_exit = value
+
+    # PUB
     def run(self, dt: int) -> bool:
+        """
+        Run game loop, draw and update current scene.
+        Return true if scene wants to quit.
+        """
         # Draw current scene
         self.current_scene.draw(self.settings.window_surf)
 
-        # Todo: do not update current scene if game is paused
+        # Update current scene
         self.current_scene.update(dt)
 
         # Tell owner if a scene wanted to end the game loop

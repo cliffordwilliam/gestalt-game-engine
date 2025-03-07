@@ -1,32 +1,37 @@
 import pygame
+from beartype import beartype
 
 from core.event import Event
 from core.scene_manager import SceneManager
 from core.settings import Settings
 
 
+@beartype
 class Loop:
     def __init__(
         self, settings: Settings, event: Event, scene_manager: SceneManager
     ) -> None:
+        # PRIVATE
         self.settings = settings
+        # PRIVATE
         self.event = event
+        # PRIVATE
         self.scene_manager = scene_manager
-        self.dt = (
-            1  # Because very first frame dt is 0, need to make it 1 so timer works
-        )
+        # PRIVATE
+        self.dt = 1  # Very first game frame dt is 0, need to make it 1 so timer works
 
+    # PUB
     def run(self) -> None:
         # The game loop
         while 1:
-            # Handle top right window x exit button
+            # Handle window X exit button
             if self.event.update():
                 break
 
             # Wipe window surface
             self.settings.wipe_native_surf()
 
-            # Run current scene and handle if a scene wants to end the game loop
+            # Run current scene and handle scene wants to exit loop with ui button
             if self.scene_manager.run(self.dt):
                 break
 

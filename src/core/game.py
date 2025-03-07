@@ -1,5 +1,4 @@
-import pygame
-import pygame.freetype
+from beartype import beartype
 
 from core.error import error
 from core.event import Event
@@ -8,38 +7,33 @@ from core.scene_manager import SceneManager
 from core.settings import Settings
 
 
+@beartype
 class Game:
+    """
+    Holds other game cores.
+    """
+
     def __init__(self, main_py_abs_path: str) -> None:
+        # Main.py absolute path
+        # PRIVATE
         self.main_py_abs_path = main_py_abs_path
 
-        # Init needed pygame modules only, not all
-        pygame.display.init()
-        pygame.freetype.init()
-
         # Reference to other cores
+        # PRIVATE
         self.settings = Settings(self.main_py_abs_path)
+        # PRIVATE
         self.event = Event(self.settings)
+        # PRIVATE
         self.scene_manager = SceneManager(self.settings, self.event)
+        # PRIVATE
         self.loop = Loop(self.settings, self.event, self.scene_manager)
 
+    # PUB
     def run(self) -> None:
-        # Runs the main game loop
+        """
+        Run game loop or error loop.
+        """
         try:
             self.loop.run()
-        # Catch error from main game loop
         except Exception as e:
-            error(e, self.main_py_abs_path)
-        # De init all pygame modules on exit
-        finally:
-            pygame.quit()
-
-    @classmethod
-    def core_initialize(cls, main_py_abs_path: str) -> "Game | None":
-        # Try to instance game
-        try:
-            return Game(main_py_abs_path)
-        # If cannot instance game then show error game loop
-        except Exception as e:
-            error(e, main_py_abs_path)
-            pygame.quit()
-            return None
+            error(e, self.settings)

@@ -5,7 +5,7 @@ from nodes.base_node import BaseNode, BaseNodeParams
 
 
 @beartype
-class Gameplay(BaseNode):
+class Test(BaseNode):
     def __init__(
         self,
         ##############
@@ -53,14 +53,12 @@ class Gameplay(BaseNode):
 
     # PUB
     def draw(self, _window_surf: pygame.Surface) -> None:
-        pass
+        _window_surf.fill(self.settings.color_white)
 
     # PUB
     def update(self, dt: int) -> None:
         if self.event.is_action_just_pressed(self.settings.attack_key_name):
-            self.scene_manager.set_current_scene(self.scene_manager.test_scene_name)
-        if self.event.is_action_just_pressed(self.settings.left_key_name):
-            self.scene_manager.set_is_exit(True)
+            self.scene_manager.set_current_scene(self.scene_manager.gameplay_scene_name)
 
     ###########
     # Publics #

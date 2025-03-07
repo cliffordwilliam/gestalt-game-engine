@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 import pygame
+from beartype import beartype
 
 from core.event import Event
 from core.settings import Settings
@@ -12,12 +13,14 @@ if TYPE_CHECKING:
 
 
 @dataclass
+@beartype
 class BaseNodeParams:
     settings: Settings
     event: Event
     scene_manager: "SceneManager"
 
 
+@beartype
 class BaseNode:
     def __init__(
         self,
@@ -66,9 +69,12 @@ class BaseNode:
     ###################
     # Frame callbacks #
     ###################
-    def draw(self, window_surf: pygame.Surface) -> None:
+
+    # PUB
+    def draw(self, _window_surf: pygame.Surface) -> None:
         pass
 
+    # PUB
     def update(self, dt: int) -> None:
         pass
 

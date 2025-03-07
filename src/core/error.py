@@ -1,55 +1,59 @@
 import logging
 import traceback
-from os import makedirs, path
+from os import makedirs
 from os.path import dirname
 
 import pygame
 import pygame.freetype
+from beartype import beartype
+
+from core.settings import Settings
+from utils.write import write
 
 
-def error(exception: Exception, main_py_abs_path: str) -> None:
-    # Init loop
-    pygame.display.init()
-    pygame.freetype.init()
-    screen = pygame.display.set_mode((320, 180), pygame.SCALED)
-    clock = pygame.time.Clock()
-
-    # Draw
-    screen.fill("#000080")
-    font = pygame.freetype.Font(file=None, size=5)
-    font.origin = True
+@beartype
+def error(exception: Exception, settings: Settings) -> None:
+    # Draw err on window surf
+    settings.window_surf.fill(settings.color_blue)
     error_text = f"{exception} {traceback.format_exc()}"
+    write(
+        settings.window_surf,
+        (
+            f"An exception has occurred:\n\n"
+            f"See {settings.traceback_file_path} for details\n\n"
+            f"{error_text}"
+        ),
+        settings.font,
+        "white",
+        settings.letter_gap_y,
+        settings.letter_width,
+        settings.letter_height,
+    )
 
-    # Get traceback path
-    traceback_file_path = path.join(main_py_abs_path, "traceback.out")
-
-    # Make dir
-    directory = dirname(traceback_file_path)
+    # Get traceback dir
+    directory = dirname(settings.traceback_file_path)
     makedirs(directory, exist_ok=True)
 
     # Init logger
     logger = logging.getLogger(__name__)
-    handler = logging.FileHandler(traceback_file_path)
+    handler = logging.FileHandler(settings.traceback_file_path)
     handler.setLevel(logging.ERROR)
     handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
     logger.addHandler(handler)
     logger.propagate = False
 
     # Write to disk
-    logger.error(traceback.format_exc())
-
-    # REMOVE IN PROD
-    print(error_text)
+    logger.error(error_text)
 
     # Starts the loop
-    running = True
+    running = 1
 
     # Error game loop
     while running:
-        # Handle top right window x exit button
+        # Handle window X exit button
         for _event in pygame.event.get(pygame.QUIT):
-            running = False
+            running = 0
         # If not dragging the window will mess up renders
         pygame.display.update()
         # Limit fps
-        clock.tick(60)
+        settings.clock.tick(settings.fps)
