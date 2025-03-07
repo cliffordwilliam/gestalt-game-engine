@@ -1,10 +1,8 @@
 import json
-import os
-from os import path
+from pathlib import Path
 
 import pygame
 from beartype import beartype
-from dacite import from_dict
 
 from nodes.base_node import BaseNode, BaseNodeParams
 from nodes.scenes.gameplay.definitions.tiled_map_dto import TiledMapDto
@@ -37,8 +35,6 @@ class Gameplay(BaseNode):
         # My prop #
         ###########
         # PRIVATE
-        self.first_room_name = "test_room.json"
-        # PRIVATE
         self.tile_sheet_name = ""
         # PRIVATE
         self.spritesheet = pygame.Surface((0, 0))
@@ -63,7 +59,7 @@ class Gameplay(BaseNode):
         ############
         # On ready #
         ############
-        self.read_tilemap_json(self.first_room_name)
+        self.read_tilemap_json(self.settings.first_room_json_file_name)
 
     ####################
     # Signal callbacks #
@@ -92,14 +88,14 @@ class Gameplay(BaseNode):
     # Privates #
     ############
     def read_tilemap_json(self, room_name: str) -> None:
-        """
-        Reads room json to
+        """Reads room json to
         Render bg
         Make collision lookup string
         """
         # Read json, throws if invalid dto shape
-        with open(path.join(self.settings.json_folder_path, room_name), "r") as file:
-            data = from_dict(data_class=TiledMapDto, data=json.load(file))
+        file_path = Path(self.settings.json_folder_path) / room_name
+        with file_path.open("r") as file:
+            data = TiledMapDto.model_validate(json.load(file))
 
         # Update room size and get new pre rendered bg paper
         self.room_width = data.width
@@ -112,22 +108,22 @@ class Gameplay(BaseNode):
             pygame.SRCALPHA,
         )
 
-        # Get tile sheet name
-        self.tile_sheet_name = os.path.splitext(data.tilesets[0].source)[0]
+        # Get tile sheet namefrom pathlib import Path
+        self.tile_sheet_name = Path(data.tilesets[0].source).stem
 
         # Get tile sheet image
         self.spritesheet = pygame.image.load(
-            path.join(self.settings.images_folder_path, f"{self.tile_sheet_name}.png")
+            Path(self.settings.images_folder_path, f"{self.tile_sheet_name}.png"),
         ).convert_alpha()
 
         # Iter json
-        for index, layer in enumerate(data.layers):
+        for _, layer in enumerate(data.layers):
             if not layer.data:
                 continue
             # Draw pre rendered bg
             for index, tile_id in enumerate(layer.data):
-                tile_id -= 1
-                if tile_id == -1:
+                formatted_tile_id = tile_id - 1
+                if formatted_tile_id == -1:
                     continue
                 # Calc destination on world
                 x = index % self.room_width
@@ -136,10 +132,10 @@ class Gameplay(BaseNode):
                 dest_y = y * self.settings.tile_size
                 # Get spritesheet region position
                 src_x = (
-                    tile_id % self.settings.spritesheet_width
+                    formatted_tile_id % self.settings.spritesheet_width
                 ) * self.settings.tile_size
                 src_y = (
-                    tile_id // self.settings.spritesheet_width
+                    formatted_tile_id // self.settings.spritesheet_width
                 ) * self.settings.tile_size
                 # Start painting the pre rendered bg
                 self.pre_rendered_bg.blit(

@@ -38,6 +38,7 @@ class SceneManager:
 
     # PUB
     # Change this to swtich scene with setter
+    # TODO: Do data binding per image / json to each scenes
     def set_current_scene(self, scene: str) -> None:
         self.current_scene = self.scenes[scene](
             BaseNodeParams(self.settings, self.event, self)
@@ -45,8 +46,8 @@ class SceneManager:
 
     # PUB
     # Change this to end loop with setter
-    def set_is_exit(self, value: bool) -> None:
-        self.is_exit = value
+    def set_is_exit_true(self) -> None:
+        self.is_exit = True
 
     # PUB CORE
     def run(self, dt: int) -> bool:

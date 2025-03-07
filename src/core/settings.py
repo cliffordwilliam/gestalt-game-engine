@@ -1,4 +1,4 @@
-from os import path
+from pathlib import Path
 
 import pygame
 import pygame.freetype
@@ -17,6 +17,8 @@ class Settings:
         self.traceback_file_name = "traceback.out"
         # PRIVATE
         self.font_file_name = "cg_pixel_3x5_mono.ttf"
+        # PRIVATE
+        self.first_room_json_file_name = "small_room.json"
 
         # Dir names
         # PRIVATE
@@ -30,28 +32,30 @@ class Settings:
         # PRIVATE
         self.images_folder_name = "images"
 
-        # Paths prop
+        # File paths
         # PRIVATE
-        self.traceback_file_path = path.join(
+        self.traceback_file_path = Path(
             self.main_py_abs_path,
             self.database_folder_name,
             self.traceback_file_name,
         )
         # PRIVATE
-        self.font_file_path = path.join(
+        self.font_file_path = Path(
             self.main_py_abs_path,
             self.assets_folder_name,
             self.fonts_folder_name,
             self.font_file_name,
         )
+
+        # Dir paths
         # PRIVATE
-        self.json_folder_path = path.join(
+        self.json_folder_path = Path(
             self.main_py_abs_path,
             self.assets_folder_name,
             self.jsons_folder_name,
         )
         # PRIVATE
-        self.images_folder_path = path.join(
+        self.images_folder_path = Path(
             self.main_py_abs_path,
             self.assets_folder_name,
             self.images_folder_name,
@@ -111,6 +115,7 @@ class Settings:
 
         # Input map
         # PUB
+        # TODO: Make a save and load to update this later
         # TODO: Make setters later to update game
         self.up_key = 1073741906
         # PUB
@@ -136,6 +141,7 @@ class Settings:
 
         # Game settings prop
         # PUB
+        # TODO: Make a save and load to update this later
         # TODO: Make setters later to update game
         self.is_fullscreen = 1
         # PUB

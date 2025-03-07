@@ -1,0 +1,12 @@
+[lint]
+select = ["ALL"]
+
+ignore = [
+    "D",     # Docstrings (remove if you want docstring enforcement)
+    "T",     # This does not allow prints
+    "BLE",   # This does not allow blind exception catches
+    "COM",   # Trailing commas (subjective preference)
+    "TD",    # missing-todo-author (# TODO(charlie): now an author is assigned)
+    "FIX",   # Checks for "TODO" comments, warns u if there is todo in code
+    "PLR",   # Checks for functions or methods with too many statements
+]

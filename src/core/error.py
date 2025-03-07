@@ -1,7 +1,6 @@
 import logging
 import traceback
-from os import makedirs, path
-from os.path import dirname
+from pathlib import Path
 
 import pygame
 import pygame.freetype
@@ -12,33 +11,41 @@ from utils.write import write
 
 @beartype
 def error(exception: Exception, main_py_abs_path: str) -> None:
-    # Draw err text on window surf
+    # Sizw
     native_width = 320
     native_height = 180
+    # Color
     color_blue = "#000080"
+    # Folder name
     database_folder_name = "database"
+    assets_folder_name = "assets"
+    fonts_folder_name = "fonts"
+    # File name
     traceback_file_name = "traceback.out"
-    traceback_file_path = path.join(
+    font_file_name = "cg_pixel_3x5_mono.ttf"
+    # File path
+    traceback_file_path = Path(
         main_py_abs_path,
         database_folder_name,
         traceback_file_name,
     )
-    assets_folder_name = "assets"
-    fonts_folder_name = "fonts"
-    font_file_name = "cg_pixel_3x5_mono.ttf"
-    font_height = 5
-    letter_height = 6
-    letter_gap_y = 5
-    letter_width = 4
-    font_file_path = path.join(
+    font_file_path = Path(
         main_py_abs_path,
         assets_folder_name,
         fonts_folder_name,
         font_file_name,
     )
+    # Font
+    font_height = 5
+    letter_height = 6
+    letter_gap_y = 5
+    letter_width = 4
+    font = pygame.freetype.Font(font_file_path, font_height)
+    # Clock
     clock = pygame.time.Clock()
     fps = 60
-    font = pygame.freetype.Font(font_file_path, font_height)
+
+    # Draw err text on window surf
     window_surf = pygame.display.set_mode((native_width, native_height), pygame.SCALED)
     window_surf.fill(color_blue)
     error_text = f"{exception} {traceback.format_exc()}"
@@ -57,8 +64,8 @@ def error(exception: Exception, main_py_abs_path: str) -> None:
     )
 
     # Get traceback dir
-    directory = dirname(traceback_file_path)
-    makedirs(directory, exist_ok=True)
+    directory = Path(traceback_file_path).parent
+    directory.mkdir(parents=True, exist_ok=True)
 
     # Init logger
     logger = logging.getLogger(__name__)

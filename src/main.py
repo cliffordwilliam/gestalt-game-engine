@@ -1,5 +1,5 @@
 import sys
-from os import path
+from pathlib import Path
 
 import pygame
 import pygame.freetype
@@ -12,12 +12,10 @@ from core.game import Game
 @beartype
 # PRIVATE
 def get_main_py_abs_path() -> str:
-    """
-    Returns absolute str path of where this func is called. OS agnostic.
-    """
+    """Return the absolute path of where this function is called. OS agnostic."""
     if getattr(sys, "frozen", False):
-        return path.dirname(sys.executable)
-    return path.dirname(path.abspath(__file__))
+        return str(Path(sys.executable).parent)
+    return str(Path(__file__).resolve().parent)
 
 
 @beartype

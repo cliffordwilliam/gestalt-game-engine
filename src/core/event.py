@@ -40,7 +40,7 @@ class Event:
             if event.type == pygame.QUIT:
                 return True
             # Update any key just pressed
-            elif event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN:
                 self.any_key_just_pressed = cast(int, event.key)
 
         # Update other inputs

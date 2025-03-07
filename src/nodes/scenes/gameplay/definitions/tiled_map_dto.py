@@ -1,18 +1,17 @@
-from dataclasses import dataclass
-from typing import List, Optional
+from __future__ import annotations
+
+from pydantic import BaseModel, Field
 
 
-@dataclass
-class Property:
+class Property(BaseModel):
     name: str
     type: str
     value: str
 
 
-@dataclass
-class Object:
+class Object(BaseModel):
     height: float
-    id: float
+    id: int
     name: str
     rotation: float
     type: str
@@ -20,47 +19,44 @@ class Object:
     width: float
     x: float
     y: float
-    point: Optional[bool] = None
-    properties: Optional[List[Property]] = None
+    point: bool | None = None
+    properties: list[Property] | None = None
 
 
-@dataclass
-class Layer:
-    id: float
+class Layer(BaseModel):
+    id: int
     name: str
-    opacity: float
+    opacity: float = Field(..., ge=0.0, le=1.0)
     type: str
     visible: bool
     x: float
     y: float
-    data: Optional[List[float]] = None
-    height: Optional[float] = None
-    width: Optional[float] = None
-    draworder: Optional[str] = None
-    objects: Optional[List[Object]] = None
-    color: Optional[str] = None
+    data: list[int] | None = None
+    height: float | None = None
+    width: float | None = None
+    draworder: str | None = None
+    objects: list[Object] | None = None
+    color: str | None = None
 
 
-@dataclass
-class Tileset:
-    firstgid: float
+class Tileset(BaseModel):
+    firstgid: int
     source: str
 
 
-@dataclass
-class TiledMapDto:
-    compressionlevel: float
-    height: float
+class TiledMapDto(BaseModel):
+    compressionlevel: int
+    height: int
     infinite: bool
-    layers: List[Layer]
-    nextlayerid: float
-    nextobjectid: float
+    layers: list[Layer]
+    nextlayerid: int
+    nextobjectid: int
     orientation: str
     renderorder: str
     tiledversion: str
-    tileheight: float
-    tilesets: List[Tileset]
-    tilewidth: float
+    tileheight: int
+    tilesets: list[Tileset]
+    tilewidth: int
     type: str
     version: str
-    width: float
+    width: int
